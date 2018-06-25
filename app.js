@@ -4,13 +4,14 @@ const app = express()
 const port = process.env.PORT || 5002
 const bodyParser = require('body-parser')
 const NodeHTTPError = require('node-http-error')
-const { propOr, isEmpty, not, compose, join } = require('ramda')
+const { propOr, isEmpty, not, compose, join, pathOr } = require('ramda')
 const checkRequiredFields = require('./lib/check-required-fields')
 const {
 	addPainting,
 	getPainting,
 	updatePainting,
-	deletePainting
+	deletePainting,
+	listPaintings
 } = require('./dal')
 
 app.use(bodyParser.json())
@@ -113,6 +114,16 @@ app.delete('/maxart/:paintingID', (req, res, next) =>
 	})
 )
 
+app.get('/maxart', (req, res, next) => {
+	const limit = Number(pathOr(10, ['query', 'limit'], req))
+
+	const paginate = pathOr(null, ['query', 'start_key'], req)
+
+	listPaintings(limit, paginate)
+		.then(paintings => res.status(200).send(paintings))
+		.catch(err => next(new NodeHTTPError(err.status, err.message, err)))
+})
+
 app.use(function(err, req, res, next) {
 	console.log(
 		'ERROR! ',
@@ -127,4 +138,4 @@ app.use(function(err, req, res, next) {
 	res.send(err)
 })
 
-app.listen(port, () => console.log('API is up!', port))
+app.listen(port, () => console.log('Greetings!', port))
