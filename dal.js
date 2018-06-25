@@ -19,8 +19,15 @@ const getPainting = (id, callback) => db.get(id, callback)
 
 const updatePainting = (painting, callback) => db.put(painting, callback)
 
+const deletePainting = (id, callback) => {
+	db.get(id, function(err, painting) {
+		db.remove(painting, callback)
+	})
+}
+
 module.exports = {
 	addPainting,
 	getPainting,
-	updatePainting
+	updatePainting,
+	deletePainting
 }

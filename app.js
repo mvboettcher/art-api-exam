@@ -6,7 +6,12 @@ const bodyParser = require('body-parser')
 const NodeHTTPError = require('node-http-error')
 const { propOr, isEmpty, not, compose, join } = require('ramda')
 const checkRequiredFields = require('./lib/check-required-fields')
-const { addPainting, getPainting, updatePainting } = require('./dal')
+const {
+	addPainting,
+	getPainting,
+	updatePainting,
+	deletePainting
+} = require('./dal')
 
 app.use(bodyParser.json())
 
@@ -98,6 +103,15 @@ app.put('/maxart/:paintingID', function(req, res, next) {
 		res.status(200).send(result)
 	})
 })
+
+app.delete('/maxart/:paintingID', (req, res, next) =>
+	deletePainting(req.params.paintingID, function(err, data) {
+		if (err) {
+			next(new NodeHTTPError(err.status, err.message, err))
+		}
+		res.status(200).send(data)
+	})
+)
 
 app.use(function(err, req, res, next) {
 	console.log(
