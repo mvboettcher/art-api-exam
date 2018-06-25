@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 const NodeHTTPError = require('node-http-error')
 const { propOr, isEmpty, not, compose, join } = require('ramda')
 const checkRequiredFields = require('./lib/check-required-fields')
-const { addPainting, getPainting } = require('./dal')
+const { addPainting, getPainting, updatePainting } = require('./dal')
 
 app.use(bodyParser.json())
 
@@ -21,7 +21,7 @@ app.post('/maxart', (req, res, next) => {
 		next(
 			new NodeHTTPError(
 				400,
-				'Please add a painting to the request body.  Ensure the Content-Type is application/json.'
+				'Please add a painting to your request body.  Ensure the Content-Type is application/json.'
 			)
 		)
 		return
@@ -59,6 +59,43 @@ app.get('/maxart/:paintingID', function(req, res, next) {
 			return
 		}
 		res.status(200).send(data)
+	})
+})
+
+app.put('/maxart/:paintingID', function(req, res, next) {
+	const updatedPainting = propOr({}, 'body', req)
+
+	if (isEmpty(updatedPainting)) {
+		next(
+			new NodeHTTPError(
+				400,
+				'Please add a painting to your request body.  Ensure the Content-Type is application/json.'
+			)
+		)
+	}
+
+	const missingFields = checkRequiredFields(
+		['_id', '_rev', 'name', 'movement', 'artist', 'yearCreated', 'museum'],
+		updatedPainting
+	)
+
+	const sendMissingFieldError = compose(
+		not,
+		isEmpty
+	)(missingFields)
+
+	if (sendMissingFieldError) {
+		next(
+			new NodeHTTPError(
+				400,
+				`You didn't pass all the required fields: ${join(', ', missingFields)}`
+			)
+		)
+	}
+
+	updatePainting(updatedPainting, function(err, result) {
+		if (err) next(new NodeHTTPError(err.status, err.message))
+		res.status(200).send(result)
 	})
 })
 
