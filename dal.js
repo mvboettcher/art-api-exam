@@ -15,6 +15,9 @@ const addPainting = (painting, callback) => {
 	db.put(modifiedPainting, callback)
 }
 
+const getPainting = (id, callback) => db.get(id, callback)
+
 module.exports = {
-	addPainting
+	addPainting,
+	getPainting
 }
