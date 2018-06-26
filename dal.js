@@ -29,7 +29,7 @@ const listPaintings = (limit, paginate) =>
 	db
 		.allDocs(
 			paginate
-				? { include_docs: true, limit, start_key: `${paginate}\ufff0` }
+				? { include_docs: true, limit, lastItem: `${paginate}\ufff0` }
 				: { include_docs: true, limit }
 		)
 		.then(response => map(prop('doc'), response.rows))

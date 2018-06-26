@@ -1,6 +1,6 @@
 # Paintings API
 
-A RESTful api to manage fine works of art.
+A RESTful api to manage artwork.
 
 ## Getting Started
 
@@ -21,7 +21,7 @@ Download the necessary dependencies using `npm install`, separating each depende
 
 ## Environment Variables
 
-Next, use the **touch** command to create a local **.env** in which to store your sensitive environment variables. Make sure this file is listed in your **.gitignore** file, so no one else can see it.
+Within your project's root directory, create a local **.env** file in which to store your sensitive environment variables. Make sure this file is listed in your **.gitignore** file, so no one else can see it.
 
 1.  `PORT` - Create a `PORT` environment variable. Choose a port that is not currently in use.
 2.  `COUCH_HOSTNAME=https://{user}:{password}@{dbhostname}/`
@@ -31,7 +31,7 @@ Next, use the **touch** command to create a local **.env** in which to store you
 
 ```
 PORT=5000
-COUCHDB_URL=https://admin:38X!p5425W@jbelushi.jrscode.cloud/
+COUCHDB_URL=https://admin:38Xzp5425W@jbelushi.jrscode.cloud/
 COUCHDB_NAME=paintings
 ```
 
@@ -167,7 +167,7 @@ PUT /paintings/painting_old_guitarist
   "artist": "Pablo Picasso",
   "yearCreated": 1904,
   "museum": {
-    "name": "Gibbes Museu of Art",
+    "name": "Gibbes Museum of Art",
     "location": "Charleston"
   }
   "type": "painting"
