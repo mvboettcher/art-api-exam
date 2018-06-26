@@ -210,6 +210,10 @@ Deletes a painting at the given `_id`.
 DELETE /paintings/old_guitarist
 ```
 
+### Response 200 OK
+
+Returned when the operation successfully updates the painting.
+
 ### Response 404 Not Found
 
 The requested resource could not be found. You may be trying to access a record that does not exist, or you may have supplied an invalid URL.
