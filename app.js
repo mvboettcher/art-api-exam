@@ -20,7 +20,7 @@ app.get('/', function(req, res, next) {
 	res.send('Welcome to the Art API. Manage all the paintings.')
 })
 
-app.post('/maxart', (req, res, next) => {
+app.post('/paintings', (req, res, next) => {
 	const newPainting = propOr({}, 'body', req)
 
 	if (isEmpty(newPainting)) {
@@ -57,7 +57,7 @@ app.post('/maxart', (req, res, next) => {
 	})
 })
 
-app.get('/maxart/:paintingID', function(req, res, next) {
+app.get('/paintings/:paintingID', function(req, res, next) {
 	const paintingID = req.params.paintingID
 	getPainting(paintingID, function(err, data) {
 		if (err) {
@@ -68,7 +68,7 @@ app.get('/maxart/:paintingID', function(req, res, next) {
 	})
 })
 
-app.put('/maxart/:paintingID', function(req, res, next) {
+app.put('/paintings/:paintingID', function(req, res, next) {
 	const updatedPainting = propOr({}, 'body', req)
 
 	if (isEmpty(updatedPainting)) {
@@ -105,7 +105,7 @@ app.put('/maxart/:paintingID', function(req, res, next) {
 	})
 })
 
-app.delete('/maxart/:paintingID', (req, res, next) =>
+app.delete('/paintings/:paintingID', (req, res, next) =>
 	deletePainting(req.params.paintingID, function(err, data) {
 		if (err) {
 			next(new NodeHTTPError(err.status, err.message, err))
@@ -114,7 +114,7 @@ app.delete('/maxart/:paintingID', (req, res, next) =>
 	})
 )
 
-app.get('/maxart', (req, res, next) => {
+app.get('/paintings', (req, res, next) => {
 	const limit = Number(pathOr(10, ['query', 'limit'], req))
 
 	const paginate = pathOr(null, ['query', 'start_key'], req)
