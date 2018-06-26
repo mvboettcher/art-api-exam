@@ -212,7 +212,7 @@ DELETE /paintings/old_guitarist
 
 ### Response 200 OK
 
-Returned when the operation successfully updates the painting.
+Returned when the operation successfully deletes the painting.
 
 ### Response 404 Not Found
 
